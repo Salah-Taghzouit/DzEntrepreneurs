@@ -108,13 +108,14 @@ exports.register = function(req, res) {
     req.session.save(function() {
       res.redirect('/')
     })
-    sendgrid.send({
-      to: user.data.email,
+    /* console.log(user.data.email)
+     sendgrid.send({
+      to: 'taghz8@yahoo.fr',
       from: 'test@test.com',
       subject: 'Welcome to DzEntrepreneurs',
       text: 'Welcome to DzEntrepreneurs.',
       html: '<strong> congrats <strong>'
-    })
+    }) */
   }).catch((regErrors) => {
     regErrors.forEach(function(error) {
       req.flash('regErrors', error)
