@@ -2,6 +2,8 @@ const User = require('../models/User')
 const Post = require('../models/Post')
 const Follow = require('../models/Follow')
 const jwt = require('jsonwebtoken')
+const sendgrid = require('@sendgrid/mail')
+sendgrid.setApiKey(process.env.SENDGRIDAPIKEY)
 
 exports.apiGetPostsByUsername = async function(req, res) {
   try {
@@ -105,6 +107,13 @@ exports.register = function(req, res) {
     req.session.user = {username: user.data.username, avatar: user.avatar, _id: user.data._id}
     req.session.save(function() {
       res.redirect('/')
+    })
+    sendgrid.send({
+      to: user.data.email,
+      from: 'test@test.com',
+      subject: 'Welcome to DzEntrepreneurs',
+      text: 'Welcome to DzEntrepreneurs.',
+      html: '<strong> congrats <strong>'
     })
   }).catch((regErrors) => {
     regErrors.forEach(function(error) {
